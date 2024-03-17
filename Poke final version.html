@@ -1,0 +1,30 @@
+<label for="pokemonInput">Enter a pokemon name:</label>
+<input type="text" id="pokemonInput" placeholder="e.g., pikachu">
+<button onclick="displayPokemon()">Search</button>
+
+<div id="pokemon"></div>
+-
+<script>
+    const apiUrl = 'https://pokeapi.co/api/v2/pokemon/';
+
+    async function fetchPokemon(pokemon) {
+        const response = await fetch(`${apiUrl}${pokemon}`);
+        return response.json();
+    }
+
+    async function displayPokemon() {
+        const pokemonInput = document.getElementById('pokemonInput').value.toLowerCase();
+        const data = await fetchPokemon(pokemonInput);
+        if (data) {
+            document.getElementById('pokemon').innerHTML = `
+                <h2>${data.name}</h2>
+                <img src="${data.sprites.front_default}" alt="${data.name}">
+            `;
+        }
+    }
+
+    displayPokemon('pikachu');
+</script>
+
+</body>
+</html>
